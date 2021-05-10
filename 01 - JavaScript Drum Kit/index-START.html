@@ -58,7 +58,31 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // 按下按鈕會發生的事情
+  const onKeyDown = (e)=>{
+    // 撥聲音
+    let audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    if(!audio) return
+    audio.currentTime = 0
+    audio.play()
 
+    // 做按鈕放大的效果
+    let key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    if(!key) return
+    key.classList.add('playing')
+  }
+
+  // 註冊keydown事件
+  window.addEventListener('keydown',onKeyDown)
+
+  // 註冊transitionend事件(按鈕放大效果結束後要做的事情)
+  window.addEventListener('transitionend',function(e){
+    // transitionend會把影響到的元素都列出來，所以要做排除的動作，以防每次都會觸發後面要做的事情
+    if(e.propertyName !== 'transform') return
+
+    // 移除按鈕放大的效果
+    e.target.classList.remove('playing')
+  })
 </script>
 
 
