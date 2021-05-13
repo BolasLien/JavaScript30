@@ -46,6 +46,17 @@ function (a,b) {
   return a.year > b.year ? 1 : -1
 }
 ```
+* 轉型成陣列
+```javascript
+// querySelectorAll回傳的東西是NodeList，並非Array，所以我們要先轉型才能進行陣列操作
+const aList = document.querySelectorAll('.mw-category a')
+
+// Array.from()
+const aArray = Array.from(aList)
+
+// 或是用...
+const aArray = [...aList]
+```
 * 利用destructuring assignment(解構賦值)，把陣列或物件的資料，存成獨立的變數
 ```javascript
   const foo = ['one','two','three']
