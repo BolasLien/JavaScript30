@@ -1,4 +1,4 @@
-# Day4 陣列操作 Day1
+# 04 陣列操作 Day1
 
 ## 需求
 1. 過濾出15世紀出生的人
@@ -14,23 +14,38 @@
 for迴圈也能解上述的需求，但是用陣列操作的函式則可以寫得更少，做得更多
 
 ## 此章節教到的函式
-### Array.prototype.filter()
-### Array.prototype.map()
-### Array.prototype.sort()
-### Array.prototype.reduce()
+* [Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+* [Array.prototype.map() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+* [Array.prototype.sort() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+* [Array.prototype.reduce() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
 
 ## 補充
-* console.table()可以用表格的方式呈現物件內容
-* 文字可以用`+`來串起來，或是用`template strings`串起來
+### 除了console.log，你還可以...
+console.table()可以用表格的方式呈現物件內容
+```javascript
+let a = [
+  { first: 'Galileo', last: 'Galilei', year: 1564, passed: 1642 },
+  { first: 'Johannes', last: 'Kepler', year: 1571, passed: 1630 },
+]
+console.log(a)
+console.table(a)
+```
+![](https://i.imgur.com/8tFSIa6.png)
+
+
+### 串字串
+文字可以用`+`來串起來，或是用`template strings`串起來
 ```javascript
 // string
 let fullName = firstName + ' ' + lastName
 
 // template strings
 let fullName = `${firstName} ${lastName}`
-
 ```
-* 如果判斷回傳的東西很簡單，用ternary operator(三元運算子)來取代if else..可以少寫很多行
+[樣板字面值 - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Template_literals)
+
+### 條件運算子(三元運算子)
+如果判斷回傳的東西很簡單，用ternary operator(條件運算子/三元運算子)來取代if else..可以少寫很多行
 ```javascript
 // if else ...
 function (a,b) {
@@ -46,7 +61,13 @@ function (a,b) {
   return a.year > b.year ? 1 : -1
 }
 ```
-* 轉型成陣列
+[條件運算子 - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
+
+### 轉陣列的方式
+轉成陣列有兩種方法，`Array.from()`或是spread syntax(展開運算子)
+* `Array.from()`依照兩種規則建立物件
+  * array-like:具有`length`屬性以及索引化的元素
+  * iterable:例如可以用`for..of`來迭代出值的元素
 ```javascript
 // querySelectorAll回傳的東西是NodeList，並非Array，所以我們要先轉型才能進行陣列操作
 const aList = document.querySelectorAll('.mw-category a')
@@ -54,16 +75,36 @@ const aList = document.querySelectorAll('.mw-category a')
 // Array.from()
 const aArray = Array.from(aList)
 
-// 或是用...
+// Spread syntax(展開運算子)
 const aArray = [...aList]
 ```
-* 利用destructuring assignment(解構賦值)，把陣列或物件的資料，存成獨立的變數
-```javascript
-  const foo = ['one','two','three']
-  const [a,b,c] = foo
+[Array.from() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 
-  console.log(a) // 'one'
-  console.log(b) // 'two'
-  console.log(c) // 'three'
+[Spread syntax (...) - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+
+[[筆記] JavaScript ES6 中的展開運算子（spread operator）和其餘運算子（rest operator）](https://pjchender.blogspot.com/2017/01/es6-spread-operatorrest-operator.html)
+
+
+### 更快的把陣列或物件的值存成變數
+利用destructuring assignment(解構賦值)，把陣列或物件的資料，存成獨立的變數
+```javascript
+const foo = ['one','two','three']
+
+// 一般都這樣寫
+const a = foo[0]
+const b = foo[1]
+const c = foo[2]
+
+console.log(a) // 'one'
+console.log(b) // 'two'
+console.log(c) // 'three'
+
+// 解構賦值這樣寫
+const [a,b,c] = foo
+
+console.log(a) // 'one'
+console.log(b) // 'two'
+console.log(c) // 'three'
 ```
+[解構賦值 - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
