@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="站名或地址">
+    <ul class="suggestions">
+      <li>請輸入站名或地址</li>
+      <!-- <li></li> -->
+    </ul>
+  </form>
+<script>
+// 台鐵車站列表
+const endpoint = 'https://gist.githubusercontent.com/salhk/cd9e808f6467f45967749b839ac4f7fb/raw/8aadc1bd5dbc4f040baf613f9a4f3928af1e28cc/TRAStations.json'
+
+const stations = []
+
+// 從網址取得車站資料
+fetch(endpoint)
+  .then(res=> res.json())
+  .then(data=> stations.push(...data))
+
+// // 找到符合的資料文字
+function findMatches(wordToMatch, stations){
+  return stations.filter(place=>{
+    const regex = new RegExp(wordToMatch, 'gi')
+    return place.Station_Name.match(regex) || place.住址.match(regex) || place.網站中文站名.match(regex)
+  })
+}
+
+// 顯示在畫面中
+function displayMatches(){
+  const result = findMatches(this.value, stations)
+
+  const html = result.map(place=>{
+    const regex = new RegExp(this.value,'gi')
+
+    // 把符合的文字高亮
+    const stationName = place.Station_Name.replace(regex, `<span class="hl">${this.value}</span>`)
+    const address = place.住址.replace(regex, `<span class="hl">${this.value}</span>`)
+    const webName = place.網站中文站名.replace(regex, `<span class="hl">${this.value}</span>`)
+
+    return `
+      <li>
+        <span class="name">${stationName}, ${webName}, ${address}</span>
+        <span class="population">${place.電話}</span>
+      </li>
+    `
+  }).join('')
+
+  suggestions.innerHTML = html
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+searchInput.addEventListener('change',displayMatches)
+searchInput.addEventListener('keyup',displayMatches)
+
+
+
+</script>
+</body>
+</html>
