@@ -26,16 +26,44 @@
 
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19 or older?
+    const isAdult = people.some(person => (new Date()).getFullYear() - person.year >= 19)
+
+    console.log({ isAdult });
     // Array.prototype.every() // is everyone 19 or older?
+    const allAdult = people.every(person => (new Date()).getFullYear() - person.year >= 19)
+
+    console.log({ allAdult })
 
     // Array.prototype.find()
     // Find is like filter, but instead returns just the one you are looking for
     // find the comment with the ID of 823423
+    const comment = comments.find(comment => comment.id === 823423)
+
+    console.log(comment);
 
     // Array.prototype.findIndex()
     // Find the comment with this ID
     // delete the comment with the ID of 823423
+    const index = comments.findIndex(comment => comment.id === 823423)
 
+    console.log(index);
+
+    // 刪除陣列資料的做法
+    // 1. Array.prototype.splice()
+    // 把陣列中從{index}開始 移除{1}筆資料
+    // splice會改變陣列資料
+    // comments.splice(index,1)
+
+    // 2. Array.prototype.slice()
+    // 從陣列中拷貝{0}到{index}的資料
+    // 從陣列中拷貝{index+1}以後的資料
+    // slice會回傳新的陣列
+    const newComments = [
+      ...comments.slice(0,index),
+      ...comments.slice(index+1)
+    ]
+
+    console.table(newComments);
   </script>
 </body>
 </html>
