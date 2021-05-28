@@ -1,5 +1,8 @@
 # 04 陣列操作 Day1
 
+## 為什麼要學陣列操作
+for迴圈也能解上述的需求，但是用陣列操作的函式則可以寫得更少，做得更多
+
 ## 需求
 1. 過濾出15世紀出生的人
 2. 用一個Array來裝人名
@@ -10,14 +13,48 @@
 7. 按照姓氏字母來排序
 8. 加總每個字出現的次數
 
-## 為什麼要學陣列操作
-for迴圈也能解上述的需求，但是用陣列操作的函式則可以寫得更少，做得更多
-
 ## 此章節教到的函式
-* [Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
-* [Array.prototype.map() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
-* [Array.prototype.sort() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-* [Array.prototype.reduce() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+### Array.prototype.filter()
+針對陣列中的每個元素，執行callback，`過濾`陣列的元素，`符合條件`的元素會`留下來`做成新的陣列回傳。
+
+#### 怎麼寫?
+```javascript
+const fruits = [
+  { price: 15, name:'apple'},
+  { price: 29, name:'banana'},
+  { price: 90, name:'coconut'},
+  { price: 365, name:'durian'},
+  { price: 99, name:'grape'},
+  { price: 19, name:'kiwi'}
+]
+
+// 從{array}找符合{condition}的{element}，留下來做成新的陣列
+// array.filter(element => condition)
+const array1 = fruits.filter(fruit => fruit.price < 30)
+console.log(array1) // [{price: 15, name: "apple"}, {price: 29, name: "banana"} ,{price: 19, name: "kiwi"}]
+```
+[Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+### Array.prototype.map()
+
+#### 怎麼寫?
+```javascript
+
+```
+[Array.prototype.map() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+### Array.prototype.sort()
+
+#### 怎麼寫?
+```javascript
+
+```
+[Array.prototype.sort() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+### Array.prototype.reduce()
+
+#### 怎麼寫?
+```javascript
+
+```
+[Array.prototype.reduce() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
 
 ## 補充
 ### 除了console.log，你還可以...
