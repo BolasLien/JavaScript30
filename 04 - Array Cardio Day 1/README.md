@@ -15,7 +15,7 @@ for迴圈也能解上述的需求，但是用陣列操作的函式則可以寫�
 
 ## 此章節教到的函式
 ### Array.prototype.filter()
-針對陣列中的每個元素，執行callback，`過濾`陣列的元素，`符合條件`的元素會`留下來`做成新的陣列回傳。
+`過濾`陣列的元素，`符合條件`的元素會`留下來`做成新的陣列。
 
 #### 怎麼寫?
 ```javascript
@@ -35,19 +35,63 @@ console.log(array1) // [{price: 15, name: "apple"}, {price: 29, name: "banana"} 
 ```
 [Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 ### Array.prototype.map()
-
+回傳`執行後`的`結果`，做成新的陣列。
+* 不會影響原始的陣列
 #### 怎麼寫?
 ```javascript
+const productPrice = [
+  {product: 'apple',cost:30},
+  {product: 'phone',cost:20000},
+  {product: 'watch',cost:13000},
+  {product: 'computer',cost:48000},
+]
 
+// 把{array}中的{element}拿出來做{callback}，將 結果 做成新的陣列
+const array = productPrice.map(product=>{
+  // 稅後售價
+  const retail = product.cost * 1.05
+  return {...product, retail}
+})
+
+console.log(array);
+// {product: "apple", cost: 30, retail: 31.5}
+// {product: "phone", cost: 20000, retail: 21000}
+// {product: "watch", cost: 13000, retail: 13650}
+// {product: "computer", cost: 48000, retail: 50400}
 ```
 [Array.prototype.map() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 ### Array.prototype.sort()
+`排序`陣列中的元素，做成新的陣列。
+* 如果直接使用`array.sort()`而不是`array.sort(比較函式)`，元素就會轉成字串，並且用 Unicode 編碼位置來進行排序，也就是說9會排在80後面。
+* 比較函式：`compare(a),b)`，`a`跟`b`是要比較的兩個元素。
+    * `compare(a,b)`回傳值`小於0`時，代表`a`排在`b`之前
+    * `compare(a,b)`回傳值`大於0`時，代表`a`排在`b`之後
+    * `compare(a,b)`回傳值`等於0`時，`a`跟`b`不變動位置。
+* 陣列長度如果`小於10`，會用`Insertion sort`來排序；否則用`Quick sort`來排序(chrome v8)
+
 
 #### 怎麼寫?
 ```javascript
+const numbers = [2, 52, 1, 19, 43, 15, 30]
 
+// 不帶入比較函式
+const array1 = numbers.sort()
+console.log(array1); // [1, 15, 19, 2, 30, 43, 52]
+
+// 帶入比較函式
+const array2 = numbers.sort(function(a, b) {
+  // 為何放a-b?
+  // a如果比較大，結果會大於0
+  // a如果比較小，結果會小於0
+  return a - b
+})
+console.log(array2); // [1, 2, 15, 19, 30, 43, 52]
 ```
 [Array.prototype.sort() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+[[偷米騎巴哥] 20180412 前端踩雷日記(解開Sort不穩定現象之謎)](https://www.youtube.com/watch?v=ql4CpdIYLfo&t=826s)
+[【TBS Learning】演算法-六種排序法之五:快速排序法(quick sort)](https://www.youtube.com/watch?v=5nXrEBhBFpU)
+[【TBS Learning】演算法-六種排序法之二:插入排序法(insertion sort)](https://www.youtube.com/watch?v=DfloPvgptJA)
+[Array sort() 陣列排序 - JavaScript (JS) 教學 Tutorial](https://www.fooish.com/javascript/array/sort.html)
 ### Array.prototype.reduce()
 
 #### 怎麼寫?
