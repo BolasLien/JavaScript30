@@ -31,7 +31,8 @@ const fruits = [
 // 從{array}找符合{condition}的{element}，留下來做成新的陣列
 // array.filter(element => condition)
 const array1 = fruits.filter(fruit => fruit.price < 30)
-console.log(array1) // [{price: 15, name: "apple"}, {price: 29, name: "banana"} ,{price: 19, name: "kiwi"}]
+console.log(array1)
+// [{price: 15, name: "apple"}, {price: 29, name: "banana"} ,{price: 19, name: "kiwi"}]
 ```
 [Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 ### Array.prototype.map()
@@ -46,7 +47,8 @@ const productPrice = [
   {product: 'computer',cost:48000},
 ]
 
-// 把{array}中的{element}拿出來做{callback}，將 結果 做成新的陣列
+// 把{array}中的{element}拿出來做{callback}，將 {result} 做成新的陣列
+// array.map(element => result)
 const array = productPrice.map(product=>{
   // 稅後售價
   const retail = product.cost * 1.05
@@ -80,25 +82,120 @@ console.log(array1); // [1, 15, 19, 2, 30, 43, 52]
 
 // 帶入比較函式
 const array2 = numbers.sort(function(a, b) {
-  // 為何放a-b?
-  // a如果比較大，結果會大於0
-  // a如果比較小，結果會小於0
+  // 為何是 a - b ?
+  // a 如果比較大，結果會大於0
+  // a 如果比較小，結果會小於0
   return a - b
 })
 console.log(array2); // [1, 2, 15, 19, 30, 43, 52]
 ```
 [Array.prototype.sort() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+
 [[偷米騎巴哥] 20180412 前端踩雷日記(解開Sort不穩定現象之謎)](https://www.youtube.com/watch?v=ql4CpdIYLfo&t=826s)
+
 [【TBS Learning】演算法-六種排序法之五:快速排序法(quick sort)](https://www.youtube.com/watch?v=5nXrEBhBFpU)
+
 [【TBS Learning】演算法-六種排序法之二:插入排序法(insertion sort)](https://www.youtube.com/watch?v=DfloPvgptJA)
+
 [Array sort() 陣列排序 - JavaScript (JS) 教學 Tutorial](https://www.fooish.com/javascript/array/sort.html)
+
 ### Array.prototype.reduce()
+用一個`累加器(accumulator)`，把陣列中的元素`逐一`做運算。
+* 也可以給累加器一個`初始值(initialValue)`，累加器就會從初始值開始加總
+* 若累加器沒有初始值，累加器會從陣列的第一位當作初始值開始加總
 
 #### 怎麼寫?
 ```javascript
+const numbers = [1, 2, 3, 4, 5]
+
+// 沒有給預設值initialValue
+// array.reduce((accumulator, currentValue) => { ... })
+const result1 = numbers.reduce(function(accumulator, currentValue) {
+  // 將每次執行的結果印出來
+  console.log(accumulator) // 1, 3, 6, 10
+  console.log(currentValue) // 2, 3, 4, 5
+  return accumulator + currentValue
+})
+console.log(result1) // 15
+
+// 有給預設值initialValue = 10
+// array.reduce((accumulator, currentValue) => { ... }, initialValue)
+const result2 = numbers.reduce(function(accumulator, currentValue) {
+  // 將每次執行的結果印出來
+  console.log(accumulator) // 10, 11, 13, 16, 20
+  console.log(currentValue) // 1, 2, 3, 4, 5
+  return accumulator + currentValue
+}, 10)
+console.log(result2) // 25
+```
+
+#### 去超市採購的範例
+```javascript
+// 菜籃裡面放的東西
+const grocery = [
+  {item:'馬鈴薯', price:10},
+  {item:'洋蔥', price:20},
+  {item:'香菇', price:95},
+  {item:'咖哩塊', price:115},
+  {item:'馬鈴薯', price:10},
+  {item:'胡蘿蔔', price:35},
+  {item:'雞肉', price:95},
+  {item:'蘋果', price:15},
+]
+
+// 購物總計初始值
+let total = [{
+  item:'總計',
+  amount:0,
+  price:0
+}]
+
+// 結帳後的購物明細
+const receipt = grocery.reduce(function(accumulator, element, index, array){
+
+  // 找有沒有這個品項
+  let item = accumulator.find(e=>e.item === element.item)
+
+  if(!item) {
+    // 如果不存在這個品項，就新增到累加器
+    accumulator.push({
+      item: element.item,
+      amount: 1,
+      price: element.price
+    })
+  } else {
+    item.amount += 1
+    item.price += element.price
+  }
+
+  // 購物總計
+  let total = accumulator.find(e=>e.item === '總計')
+  total.amount += 1
+  total.price += element.price
+
+
+  return accumulator
+}, total)
+
+console.log(receipt);
+// 0: {item: "總計", amount: 8, price: 395}
+// 1: {item: "馬鈴薯", amount: 2, price: 20}
+// 2: {item: "洋蔥", amount: 1, price: 20}
+// 3: {item: "香菇", amount: 1, price: 95}
+// 4: {item: "咖哩塊", amount: 1, price: 115}
+// 5: {item: "胡蘿蔔", amount: 1, price: 35}
+// 6: {item: "雞肉", amount: 1, price: 95}
+// 7: {item: "蘋果", amount: 1, price: 15}
 
 ```
+####
 [Array.prototype.reduce() - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+
+[JavaScript reduce 在做什麼？ - 客座投稿 | W3HexSchool](https://w3c.hexschool.com/blog/a2cb755f)
+
+[The JavaScript Reduce Method Explained | DigitalOcean](https://www.digitalocean.com/community/tutorials/js-finally-understand-reduce)
+
+[One reduce() to rule them all — How to use reduce in JavaScript | by Kristian Poslek | Level Up Coding](https://levelup.gitconnected.com/one-reduce-to-rule-them-all-504e1b790a83)
 
 ## 補充
 ### 除了console.log，你還可以...
