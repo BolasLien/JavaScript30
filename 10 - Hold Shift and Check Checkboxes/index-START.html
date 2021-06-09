@@ -96,6 +96,36 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]')
+
+  // 最後一次勾選
+  let lastChecked;
+
+  // 偵測到click的時候要做的事情
+  function handleCheck(e){
+    // 要不要勾選的開關
+    let inBetween = false
+
+    // 如果有按下 shift 並且勾選一項
+    if(e.shiftKey && this.checked && this !== lastChecked) {
+      checkboxes.forEach(checkbox=>{
+        // 因為迴圈是有順序的，當 checkbox 是 這次勾選 或 上一次勾選，就去改變 inBetween
+        // 就能知道 inBetween = true 的時候的 checkbox 是在兩者中間
+        if(checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween
+        }
+        // 如果在兩個選項之間，就打勾
+        if(inBetween) {
+          checkbox.checked = true
+        }
+      })
+    }
+
+    // 點下去之後存到最後一次勾選
+    lastChecked = this
+  }
+  checkboxes.forEach(checkbox=> checkbox.addEventListener('click', (handleCheck)))
+
 </script>
 </body>
 </html>
