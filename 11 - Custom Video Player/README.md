@@ -14,13 +14,16 @@
 
 
 ## 補充
-### 用邏輯判斷 &&, || 來改寫 if (短路求值 Short-circuit evaluation)
+### 用邏輯判斷 ||(OR) 及 &&(AND) 來改寫 if (短路求值 Short-circuit evaluation)
 先講結論：`||`、 `&&` 可以幫助程式碼變得更短。
 * 用 `||`、 `&&` 來改寫if
 * 用 `||` 來設定變數的預設值
 * 用 `&&` 來檢查物件屬性是否存在
 
-#### &&, || 介紹
+<!-- more -->
+
+#### ||(OR) 及 &&(AND) 介紹
+
 `||`(OR) 在判斷多個條件中，只要一個為`true`時，就會回傳`true`。
 ```javascript
 let a = 2
@@ -31,6 +34,7 @@ console.log(a > 3 || b > 2) // true
 console.log(a > 1 || b > 5) // true
 console.log(a > 3 || b > 5) // false
 ```
+
 `&&`(AND) 在判斷多個條件中，必須全部為`true`時，才會回傳 `true`。
 ```javascript
 let a = 2
@@ -73,7 +77,9 @@ console.log(a || b) // 12345
 為何這個例子印出了`12345`，而不是`true`？因為OR、AND可以處理非Boolean的物件，所以稍微修改一下一開始的解釋：
 * `||`(OR) 在判斷多個條件中，只要一個為 ~~`true`~~ `真值(truthy)` 時，就會回傳 ~~`true`~~ `該物件`。
 * `&&`(AND) 在判斷多個條件中，必須全部為 ~~`true`~~ `真值(truthy)` 時，才會回傳 ~~`true`~~ `該物件`。
+
 #### 短路求值 Short-circuit evaluation
+
 短路求值在維基百科的解釋：
 > 只有當第一個運算數的值無法確定邏輯運算的結果時，才對第二個運算數進行求值。例如，當AND的第一個運算數的值為false時，其結果必定為false；當OR的第一個運算數為true時，最後結果必定為true，在這種情況下，就不需要知道第二個運算數的具體值。
 
@@ -91,11 +97,22 @@ console.log(a || b) // 12345
 > Short circuit means that the expr part above is not evaluated,
 
 大概翻譯：
-* AND 表達式是從左計算到右，在短路求值的計算中，如果左邊的表達式計算出來是`假值(falsy)`，那右邊的表達式就不會計算(執行)。
-* OR 表達式是從左計算到右，在短路求值的計算中，如果左邊的表達式計算出來是`真值(falsy)`，那右邊的表達式就不會計算(執行)。
+* AND 表達式是從左計算到右，在短路求值的計算中，如果左邊的表達式計算出來是 `假值(falsy)` ，那右邊的表達式就不會計算(執行)。
+* OR 表達式是從左計算到右，在短路求值的計算中，如果左邊的表達式計算出來是 `真值(falsy)` ，那右邊的表達式就不會計算(執行)。
 
 依照這樣的邏輯，我們就可以用來改寫if，或是更進階的應用。
+
+##### 額外補充
+
+AND跟OR的優先順序是AND優先，如果混著用的話就會先做AND
+
+```javascript from MDN
+true || false && false      // returns true, because && is executed first
+(true || false) && false    // returns false, because operator precedence cannot apply
+```
+
 #### 短路求值應用
+
 如果data沒有資料的時候，要印出「沒有data」的訊息。
 ```javascript
 let data = null
@@ -121,7 +138,6 @@ if(data) {
 // &&的寫法
 data && console.log(data) // 12345
 ```
-
 
 不知道data有沒有值，沒有的話就給預設值。
 ```javascript
@@ -154,7 +170,6 @@ function getPersonJob(person) {
 
 getPersonJob(person1) // Amy 的工作是 teacher
 getPersonJob(person2)
-
 ```
 
 #### 延伸閱讀
@@ -165,6 +180,8 @@ getPersonJob(person2)
 [JavaScript基本功修練：Day9 - 短路求值與條件運算子的應用](https://ithelp.ithome.com.tw/articles/10243261)
 [JavaScript: What is short-circuit evaluation? | by Brandon Morelli | codeburst](https://codeburst.io/javascript-what-is-short-circuit-evaluation-ff22b2f5608c)
 [JS 中 if / if...else...替换方式](https://segmentfault.com/a/1190000015809529)
+
+
 
 
 ### 訪問物件的屬性
