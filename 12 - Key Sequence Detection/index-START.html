@@ -7,6 +7,21 @@
 </head>
 <body>
 <script>
+  let konamiCode = 'magic'
+  let inputLog = []
+
+  document.addEventListener('keyup',(e)=>{
+    console.log(e.key);
+    inputLog.push(e.key)
+
+    // splice(start,deleteNumber)
+    // start 如果是負數，就是從陣列的尾開始
+    inputLog.splice(-konamiCode.length - 1, inputLog.length - konamiCode.length)
+
+    if(konamiCode === inputLog.join('')) {
+      cornify_add()
+    }
+  })
 </script>
 </body>
 </html>
